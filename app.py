@@ -81,7 +81,7 @@ elif page == "About":
     st.markdown(
         """
         ### **📝 About the Dataset**
-        - Dataset consists of 9000+ **Hinglish social media posts**.
+        - Dataset consists of 9800+ **Hinglish social media posts**.
         - Contains **sarcastic & non-sarcastic** labeled tweets.
         - Preprocessed the data using **XLM-RoBERTa Transformer**.
         """
