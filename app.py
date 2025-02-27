@@ -1,17 +1,21 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
+import pickle
 from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import time
 
 st.set_page_config(page_title="Sarcasm Detector", layout="wide")
 
-MODEL_PATH = "model.h5"
-model = load_model(MODEL_PATH)
+# Load the trained model
+# MODEL_PATH = "model.h5"
+model = load_model("model.h5", compile=False)
 
-tokenizer = Tokenizer(num_words=15000)
+
+# Load the fitted tokenizer
+with open("tokenizer.pkl", "rb") as handle:
+    tokenizer = pickle.load(handle)
 
 def preprocess_text(text):
     sequences = tokenizer.texts_to_sequences([text])
@@ -22,7 +26,7 @@ def preprocess_text(text):
 st.sidebar.title("🔍 Navigate")
 page = st.sidebar.radio("Go to", ["Home", "Sarcasm Detection", "About"])
 
-#Home Page
+# Home Page
 if page == "Home":
     st.title("🎭 Hinglish Sarcasm Detection")
     st.image("image.png", use_container_width=True)  
@@ -40,7 +44,7 @@ if page == "Home":
         2️⃣ Our model analyzes the text and predicts whether it's **sarcastic or not**.  
         3️⃣ The model provides a **confidence score** along with the result.  
 
-       ### 🎯 **Why This Matters?**  
+        ### 🎯 **Why This Matters?**  
         - Ever read a tweet and thought, *"Wait... was that sarcasm?"* 🤔  
         - Social media is full of hidden meanings—our AI helps you **decode the unsaid**.  
         - Whether you're a **content creator, researcher, or just curious**, this tool makes sarcasm detection **easy and fun!**  
@@ -49,8 +53,7 @@ if page == "Home":
         """
     )
 
-
-#Detection Page
+# Detection Page
 elif page == "Sarcasm Detection":
     st.title("📝 Sarcasm Detector")
     st.markdown("### 🤖 **Enter a tweet below to check for sarcasm**")
@@ -71,7 +74,7 @@ elif page == "Sarcasm Detection":
         else:
             st.warning("⚠️ Please enter a tweet.")
 
-#About Page
+# About Page
 elif page == "About":
     st.title("📜 About the Project")
     
